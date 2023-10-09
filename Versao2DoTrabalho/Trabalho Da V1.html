@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CRUD de Aparelhos</title>
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>CRUD de Aparelhos</h1>
+
+        <div id="Cadastro" style="display: none;">
+            <h2>Novo Item</h2>
+            <form id="AparelhoForm">
+                <label for="Nome">Nome: </label>
+                <input type="text" id="Nome" name="Nome" required><br>
+                <label for="Marca">Marca: </label>
+                <input type="text" id="Marca" name="Marca" required><br>
+                <label for="Modelo">Modelo: </label>
+                <input type="text" id="Modelo" name="Modelo" required><br>
+                <label for="Tipo">Tipo: </label>
+                <select id="Tipo" name="Tipo">
+                  <option value="Celular">Celular</option>
+                  <option value="Notebook">Notebook</option>
+                  <option value="Tablet">Tablet</option>
+                  <option value="Outro">Outro</option>
+                </select><br>
+                <label for="Condicao">Condição: </label>
+                <input type="radio" name="Condicao" value="Novo" checked> Novo
+                <input type="radio" name="Condicao" value="Usado"> Usado<br>
+                <label for="Quantidade">Quantidade: </label>
+                <input type="number" id="Quantidade" name="Quantidade" value="1" min="1"><br>
+                <label for="Diferenciais">Diferenciais: </label><br>
+                <input type="checkbox" id="Wifi" name="Diferenciais" value="Wifi">
+                <label for="Wifi">Wi-Fi</label><br>
+                <input type="checkbox" id="Bluetooth" name="Diferenciais" value="Bluetooth">
+                <label for="Bluetooth">Bluetooth</label><br>
+                <input type="checkbox" id="Gps" name="Diferenciais" value="Gps">
+                <label for="Gps">GPS</label><br>
+                
+                <button type="button" onclick="Cadastrar()">Cadastrar</button>
+                <button type="reset">Limpar</button>
+            </form>
+        </div>
+
+        <button type="button" onclick="VisualizarCadastro()">Novo Item</button>
+
+        <h2>Listagem de Aparelhos</h2>
+        <table id="AparelhoTable">
+            <tr>
+                <th>Nome</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Tipo</th>
+                <th>Condição</th>
+                <th>Quantidade</th>
+                <th>Ações</th>
+            </tr>
+        </table>
+
+        <script>
+            var Aparelhos = [];
+
+            function VisualizarCadastro() {
+                document.getElementById("Cadastro").style.display = "block";
+            }
+
+            function Cadastrar() {
+                var form = document.getElementById("AparelhoForm");
+                var Nome = form.Nome.value;
+                var Marca = form.Marca.value;
+                var Modelo = form.Modelo.value;
+                var Tipo = form.Tipo.value;
+                var Condicao = document.querySelector('input[name="Condicao"]:checked').value;
+                var Quantidade = parseInt(form.Quantidade.value);
+
+                var Diferenciais = [];
+                var checkboxes = document.getElementsByName("Diferenciais");
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        Diferenciais.push(checkboxes[i].value);
+                    }
+                }
+                if (Nome && Marca && Modelo && Tipo && Condicao && Quantidade > 0 && Diferenciais.length > 0) {
+                    for (var i = 0; i < Quantidade; i++) {
+                        var Aparelho = {
+                            Nome: Nome,
+                            Marca: Marca,
+                            Modelo: Modelo,
+                            Tipo: Tipo,
+                            Condicao: Condicao,
+                            Quantidade: Quantidade,
+                            Diferenciais: Diferenciais
+                        };
+
+                        Aparelhos.push(Aparelho);
+                    }
+
+                    form.reset();
+
+                    document.getElementById("Cadastro").style.display = "none";
+                    AtualizarTabela();
+                }
+                else
+                {
+                    alert("Por favor, preencha todos os campos corretamente.");
+                }
+            }
+            function Remover(index) {
+                if (confirm("Tem certeza que deseja remover este aparelho?")) {
+                    Aparelhos.splice(index, 1);
+                    AtualizarTabela();
+                }
+            }
+            function Editar(index) {
+                if (confirm("Tem certeza que deseja editar este aparelho?")) {
+                    Aparelhos.entries(index, 1);
+                    AtualizarTabela();
+                }
+            }
+            function AtualizarTabela() {
+                var table = document.getElementById("AparelhoTable");
+                table.innerHTML = "";
+
+                for (var i = 0; i < Aparelhos.length; i++) {
+                    var Aparelho = Aparelhos[i];
+
+                    var row = table.insertRow();
+                    row.insertCell().innerText = Aparelho.Nome;
+                    row.insertCell().innerText = Aparelho.Marca;
+                    row.insertCell().innerText = Aparelho.Modelo;
+                    row.insertCell().innerText = Aparelho.Tipo;
+                    row.insertCell().innerText = Aparelho.Condicao;
+                    row.insertCell().innerText = Aparelho.Quantidade;
+
+                    var EditarButton = document.createElement("button");
+                    EditarButton.innerText = "Editar";
+                    EditarButton.addEventListener("click", function(){
+                        Editar(i);
+                    });
+                    row.insertCell().appendChild(EditarButton);
+
+                    var RemoverButton = document.createElement("button");
+                    RemoverButton.innerText = "Remover";
+                    RemoverButton.addEventListener("click", function(){
+                        Remover(i);
+                    });
+                    row.insertCell().appendChild(RemoverButton);
+                }
+            }
+        </script>
+    </body>
+</html>

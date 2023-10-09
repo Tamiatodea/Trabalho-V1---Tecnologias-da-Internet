@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CRUD de Aparelhos</title>
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>CRUD de Aparelhos</h1>
+
+        <div id="Cadastro" style="display: none;">
+            <h2>Novo Item</h2>
+            <form id="AparelhoForm">
+                <label for="Nome">Nome: </label>
+                <input type="text" id="Nome" name="Nome" required><br>
+                <label for="Marca">Marca: </label>
+                <input type="text" id="Marca" name="Marca" required><br>
+                <label for="Modelo">Modelo: </label>
+                <input type="text" id="Modelo" name="Modelo" required><br>
+                <label for="Tipo">Tipo: </label>
+                <select id="Tipo" name="Tipo">
+                  <option value="Celular">Celular</option>
+                  <option value="Notebook">Notebook</option>
+                  <option value="Tablet">Tablet</option>
+                  <option value="Outro">Outro</option>
+                </select><br>
+                <label for="Condicao">Condição: </label>
+                <input type="radio" name="Condicao" value="Novo" checked> Novo
+                <input type="radio" name="Condicao" value="Usado"> Usado<br>
+                <label for="Quantidade">Quantidade: </label>
+                <input type="number" id="Quantidade" name="Quantidade" value="1" min="1"><br>
+                <label for="Diferenciais">Diferenciais: </label><br>
+                <input type="checkbox" id="Wifi" name="Diferenciais" value="Wifi">
+                <label for="Wifi">Wi-Fi</label><br>
+                <input type="checkbox" id="Bluetooth" name="Diferenciais" value="Bluetooth">
+                <label for="Bluetooth">Bluetooth</label><br>
+                <input type="checkbox" id="Gps" name="Diferenciais" value="Gps">
+                <label for="Gps">GPS</label><br>
+                
+                <button type="button" onclick="Cadastrar()">Cadastrar</button>
+                <button type="reset">Limpar</button>
+            </form>
+        </div>
+
+        <button type="button" onclick="VisualizarCadastro()">Novo Item</button>
+
+        <h2>Listagem de Aparelhos</h2>
+        <table id="AparelhoTable">
+            <tr>
+                <th>Nome</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Tipo</th>
+                <th>Condição</th>
+                <th>Quantidade</th>
+                <th>Diferenciais</th>
+                <th>Testes</th>
+                <th>Editar</th>
+                <th>Remover</th>
+            </tr>
+        </table>
+
+        <script type="text/javascript" src="BancoDeDados.js"></script>
+    </body>
+</html>
